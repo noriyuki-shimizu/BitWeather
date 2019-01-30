@@ -1,0 +1,24 @@
+{
+  "name": "bitweather",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://shiminori@bitbucket.org/shiminori/bitweather.git"
+  },
+  "author": "noriyuki.shimizu",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/shiminori/bitweather#readme",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "tokoro": "^0.2.1",
+    "yaml": "^1.2.1"
+  }
+}
