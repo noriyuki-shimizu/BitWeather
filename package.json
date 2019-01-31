@@ -1,24 +1,29 @@
 {
   "name": "bitweather",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Macのメニューバーに天気予報を表示します。",
+  "main": "app.1h.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://shiminori@bitbucket.org/shiminori/bitweather.git"
+    "url": "git+https://github.com/noriyuki-shimizu/BitWeather.git"
   },
+  "keywords": [
+    "BitBar"
+  ],
   "author": "noriyuki.shimizu",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/shiminori/bitweather#readme",
+  "bugs": {
+    "url": "https://github.com/noriyuki-shimizu/BitWeather/issues"
+  },
+  "homepage": "https://github.com/noriyuki-shimizu/BitWeather#readme",
   "dependencies": {
-    "debug": "^4.1.1",
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "https": "^1.0.0",
     "tokoro": "^0.2.1",
-    "yaml": "^1.2.1"
+    "yaml": "^1.3.1"
   }
 }
