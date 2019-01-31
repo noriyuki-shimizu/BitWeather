@@ -6,53 +6,45 @@ const systemEnv = require('./systemEnv');
 const OpenWeatherMap = require('./openWeatherMap');
 const DisplayError = require('./displays/error');
 
-exports.create = () => {
-    return Tokoro.create();
+exports.create = (address) => {
+    return Tokoro.create(address);
 }
 
 var Tokoro = {
-    create: () => {
+    create: (address) => {
         var tokoro = Object.create(Tokoro.prototype);
 
-        // 住所
-        tokoro.address;
-
-        tokoro.cron = 500;
+        tokoro.address = address;
 
         return tokoro;
     },
+    addressException: () => {
+        var displayError = DisplayError.create(
+            '住所が不正です。',
+            '設定を確認してください。'
+        );
+        displayError.display();
+    },
     prototype: {
-        presentLocation() {
-            var address = [];
-            var execute = function(code) {
+        leadLatLonFromAddress() {
+            var address = this.address;
+            var processAfterAcquisition = function(code) {
                 if (code) {
 
                     const latlon = {lat: code[0], lon: code[1]};
 
                     // ====== weather ======
-                    const openWeatherMap = OpenWeatherMap.create(address[0], latlon);
-                    openWeatherMap.execute();
+                    const openWeatherMap = OpenWeatherMap.create(address, latlon);
+                    openWeatherMap.acquire();
                     // =====================
-
-                    address.shift();
 
                     return ;
                 }
 
-                var displayError = DisplayError.create('住所が不正です。');
-                displayError.execute();
+                Tokoro.addressException();
             }
 
-            const property = systemEnv.get;
-
-            const addressObj = property.TOKORO.ADDRESS;
-            for(var key in addressObj) {
-                if(typeof addressObj[key] === 'string') {
-                    address.push(addressObj[key]);
-
-                    tokoro(addressObj[key], execute);
-                }
-            }
+            tokoro(address, processAfterAcquisition);
         }
     }
 }
