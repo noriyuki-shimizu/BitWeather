@@ -15,34 +15,23 @@ var OpenWeatherMap = {
     create: (address, latlon) => {
         var openWeatherMap = Object.create(OpenWeatherMap.prototype);
 
-        // 住所
         openWeatherMap.address = address;
-        // apiから取得される天気情報
+
         openWeatherMap.weatherData;
-        // 緯度、経度情報
+
         openWeatherMap.latlon = latlon;
 
-        // 設定ファイルからHTTP通信のためのパラメータ取得
         const property = systemEnv.get;
 
-        // リクエストURL
         const REQUEST_URL = property.OPENWEATHERMAP.REQUEST_URL;
-        // 取得件数
-        const CNT = property.OPENWEATHERMAP.REQUEST_GET_CNT;
-        // ユニット
-        const UNITS = property.OPENWEATHERMAP.REQUEST_GET_UNITS;
-        // レスポンスデータの形式（json）
-        const MODE = property.OPENWEATHERMAP.REQUEST_GET_MODE;
-        // api ID
-        const APPID = property.OPENWEATHERMAP.REQUEST_GET_APPID;
 
         const parameter = {
             lat: latlon.lat,
             lon: latlon.lon,
-            cnt: CNT,
-            units: UNITS,
-            mode: MODE,
-            appid:APPID
+            cnt: property.OPENWEATHERMAP.REQUEST_GET_CNT,
+            units: property.OPENWEATHERMAP.REQUEST_GET_UNITS,
+            mode: property.OPENWEATHERMAP.REQUEST_GET_MODE,
+            appid: property.OPENWEATHERMAP.REQUEST_GET_APPID
         };
 
         var url = Url.create(REQUEST_URL, parameter);
@@ -51,8 +40,15 @@ var OpenWeatherMap = {
 
         return openWeatherMap;
     },
+    acquireException: () => {
+        var displayError = DisplayError.create(
+            '天気予報の取得に失敗しました。',
+            '設定を確認してください。'
+        );
+        displayError.display();
+    },
     prototype: {
-        execute() {
+        acquire() {
 
             var address = this.address;
 
@@ -66,15 +62,20 @@ var OpenWeatherMap = {
                 });
 
                 response.on('end', function(chunk) {
-                    var weatherData = JSON.parse(body);
-                    var openWeatherMapDisplay = OpenWeatherMapDisplay.create(weatherData.list, address);
+                    try {
+                        var weatherData = JSON.parse(body);
+                        var openWeatherMapDisplay = OpenWeatherMapDisplay.create(weatherData.list, address);
 
-                    openWeatherMapDisplay.execute();
+                        openWeatherMapDisplay.addressDisplay();
+                        openWeatherMapDisplay.dateDisplay();
+                    } catch(e) {
+                        console.log(e);
+                        OpenWeatherMap.acquireException();
+                    }
                 });
             })
            .on('error', function(e) {
-                var displayError = DisplayError.create('天気予報が取得出来ませんでした。');
-                displayError.execute();
+                OpenWeatherMap.acquireException();
            });
         }
     }

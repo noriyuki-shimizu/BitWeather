@@ -1,5 +1,7 @@
 
 const DisplayError = require('./displays/error');
+const systemEnv = require('./systemEnv');
+const Url = require('./url');
 
 exports.create = () => {
     return Ipinfo.create();
@@ -7,21 +9,14 @@ exports.create = () => {
 
 var Ipinfo = {
     create: () => {
-
-        const systemEnv = require('./systemEnv');
-        const Url = require('./url');
-
         var ipinfo = Object.create(Ipinfo.prototype);
 
         const property = systemEnv.get;
 
-        // リクエストURL
         const REQUEST_URL = property.IPINFO.REQUEST_URL;
-        // api token
-        const apiToken = property.IPINFO.REQUEST_GET_TOKEN;
 
         const parameter = {
-            token: apiToken
+            token: property.IPINFO.REQUEST_GET_TOKEN
         };
 
         var url = Url.create(REQUEST_URL, parameter);
@@ -29,6 +24,13 @@ var Ipinfo = {
         ipinfo.apiUrl = url.createUrl();
 
         return ipinfo;
+    },
+    acquireException: () => {
+        var displayError = DisplayError.create(
+            '現在地の取得に失敗しました。',
+            '設定を確認してください。'
+        );
+        displayError.display();
     },
     prototype: {
         execute() {
@@ -46,20 +48,25 @@ var Ipinfo = {
                 });
 
                 response.on('end', chunk => {
-                    const yourLocation = JSON.parse(body);
+                    try {
+                        const yourLocation = JSON.parse(body);
 
-                    const code = yourLocation.loc.split(',');
+                        const code = yourLocation.loc.split(',');
 
-                    const latlon = {lat: code[0], lon: code[1]};
+                        const latlon = {lat: code[0], lon: code[1]};
 
-                    var openWeatherMap = OpenWeatherMap.create('現在地', latlon);
+                        var openWeatherMap = OpenWeatherMap.create('現在地', latlon);
 
-                    openWeatherMap.execute();
+                        openWeatherMap.acquire();
+                    } catch(e) {
+                        console.log(e);
+                        Ipinfo.acquireException();
+                    }
+
                 });
             })
             .on('error', function(e) {
-                var displayError = DisplayError.create('現在地の取得に失敗しました。');
-                displayError.execute();
+                Ipinfo.acquireException();
             });
         }
     }

@@ -2,7 +2,7 @@ ipinfo:
   request:
     url: 'https://ipinfo.io'
     get:
-      token: '{your ipinfo API token}'
+      token: '{your ipinfo token}'
 tokoro:
   address:
     # 住所を入力　以下は例
@@ -12,7 +12,7 @@ openweathermap:
   request:
     url: 'http://api.openweathermap.org/data/2.5/forecast'
     get:
-      appID: '{your openWeatherMap API key}'
+      appID: '{your api key}'
       cnt: '35'
       units: 'metric'
       mode: 'json'

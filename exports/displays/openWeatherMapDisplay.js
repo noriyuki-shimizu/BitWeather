@@ -21,18 +21,19 @@ var OpenWeatherMapDisplay = {
 
     },
     prototype: {
-        execute() {
+        addressDisplay() {
+            Display.separator();
+
+            var parentWeatherId = this.displayData[0].weather[0].id;
+            var parentCondition = WeatherConditionCodes.get(parentWeatherId);
+            console.log(parentCondition.icon + this.address);
+        },
+        dateDisplay() {
             const greenwich = 9;
 
             var beforeDate = '';
 
-            Display.separator();
-
-            var parentWeatherId = this.ofData[0].weather[0].id;
-            var parentCondition = WeatherConditionCodes.get(parentWeatherId);
-            console.log(parentCondition.icon + this.address);
-
-            this.ofData.forEach(weatherDay => {
+            this.displayData.forEach(weatherDay => {
                 var dateTime = new Date(weatherDay.dt_txt);
 
                 dateTime.setHours(dateTime.getHours() + greenwich);

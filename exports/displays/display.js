@@ -3,10 +3,10 @@
  * メニューバーに表示させるオブジェクト
  */
 var Display = {
-    create: (of) => {
+    create: (displayData) => {
         var display = Object.create(Display.prototype);
 
-        display.ofData = of;
+        display.displayData = displayData;
 
         return display;
     },

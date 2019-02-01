@@ -1,10 +1,13 @@
 
 const Display = require('./display');
 
-exports.create = (message) => {
+exports.create = (...message) => {
     return Error.create(message);
 }
 
+/**
+ * エラーを表示させます。
+ */
 var Error = {
     create: (message) => {
         var error = Object.create(Error.prototype);
@@ -13,10 +16,25 @@ var Error = {
 
         return error;
     },
+    isArray: (target) => {
+        var toString = Object.prototype.toString;
+        return toString.call(target).slice(8, -1) === 'Array';
+    },
     prototype: {
-        execute() {
+        display() {
             Display.separator();
-            console.log(`${this.ofData} | color:red`);
+
+            if(!Error.isArray(this.displayData)) {
+                console.log(`${this.displayData} | color:red`);
+                return ;
+            }
+
+            this.displayData.forEach(text => {
+                console.log(`${text} | color:red`);
+            });
+
         }
     }
 }
+
+Object.setPrototypeOf(Error.prototype, Display.prototype);
