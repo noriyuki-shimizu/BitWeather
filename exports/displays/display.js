@@ -13,8 +13,8 @@ var Display = {
     separator: () => {
         console.log('---');
     },
-    toDisplay: (text) => {
-        // TODO: BitBarみたいに実装したいな〜~
+    tree: () => {
+        return '--';
     },
     prototype: {}
 }
