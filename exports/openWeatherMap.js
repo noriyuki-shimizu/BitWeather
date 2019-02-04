@@ -66,11 +66,12 @@ var OpenWeatherMap = {
                     try {
                         var parseWeatherData = JSON.parse(body);
 
-                        var bitWeatherConvert = BitWeatherConvert.create(parseWeatherData.list)
+                        var bitWeatherConvert = BitWeatherConvert.create(parseWeatherData.list);
+                        var displayAddress = bitWeatherConvert.getCurrentWeatherIcon() + address;
                         var displayData = bitWeatherConvert.convert()
                                                            .grouping();
 
-                        var openWeatherMapDisplay = OpenWeatherMapDisplay.create(displayData, address);
+                        var openWeatherMapDisplay = OpenWeatherMapDisplay.create(displayData, displayAddress);
 
                         openWeatherMapDisplay.display();
                     } catch {

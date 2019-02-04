@@ -19,6 +19,14 @@ const BitWeatherConvert = {
         return bitWeatherConvert;
     },
     prototype: {
+        getCurrentWeatherIcon() {
+            if(!Array.isArray(this.weatherDataList)) return ;
+
+            var currentWeatherDay = this.weatherDataList[0];
+            var condition = WeatherConditionCodes.get(currentWeatherDay.weather[0].id);
+
+            return condition.icon;
+        },
         convert() {
             this.weatherDataList.map(weatherDay => {
                 var dateTime = new Date(weatherDay.dt_txt);
