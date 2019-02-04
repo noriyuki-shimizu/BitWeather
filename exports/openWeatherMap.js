@@ -4,6 +4,7 @@ const http = require('http');
 // ===== exportsオブジェクト =====
 const systemEnv = require('./systemEnv');
 const Url = require('./url');
+const BitWeatherConvert = require('./converts/bitWeatherConvert');
 const OpenWeatherMapDisplay = require('./displays/openWeatherMapDisplay');
 const DisplayError = require('./displays/error');
 
@@ -63,13 +64,16 @@ var OpenWeatherMap = {
 
                 response.on('end', function(chunk) {
                     try {
-                        var weatherData = JSON.parse(body);
-                        var openWeatherMapDisplay = OpenWeatherMapDisplay.create(weatherData.list, address);
+                        var parseWeatherData = JSON.parse(body);
 
-                        openWeatherMapDisplay.addressDisplay();
-                        openWeatherMapDisplay.dateDisplay();
-                    } catch(e) {
-                        console.log(e);
+                        var bitWeatherConvert = BitWeatherConvert.create(parseWeatherData.list)
+                        var displayData = bitWeatherConvert.convert()
+                                                           .grouping();
+
+                        var openWeatherMapDisplay = OpenWeatherMapDisplay.create(displayData, address);
+
+                        openWeatherMapDisplay.display();
+                    } catch {
                         OpenWeatherMap.acquireException();
                     }
                 });
