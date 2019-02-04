@@ -16,15 +16,11 @@ var Error = {
 
         return error;
     },
-    isArray: (target) => {
-        var toString = Object.prototype.toString;
-        return toString.call(target).slice(8, -1) === 'Array';
-    },
     prototype: {
         display() {
             Display.separator();
 
-            if(!Error.isArray(this.displayData)) {
+            if(!Array.isArray(this.displayData)) {
                 console.log(`${this.displayData} | color:red`);
                 return ;
             }
