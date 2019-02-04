@@ -58,8 +58,7 @@ var Ipinfo = {
                         var openWeatherMap = OpenWeatherMap.create('現在地', latlon);
 
                         openWeatherMap.acquire();
-                    } catch(e) {
-                        console.log(e);
+                    } catch {
                         Ipinfo.acquireException();
                     }
 
