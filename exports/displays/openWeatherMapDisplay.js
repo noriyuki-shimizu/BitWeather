@@ -25,7 +25,8 @@ var OpenWeatherMapDisplay = {
             console.log(`${tree}${subMenu.text} | color=${subMenu.color}`);
 
             if(subMenu['subMenu'] !== undefined) {
-                OpenWeatherMapDisplay.subMenuDisplay(subMenu['subMenu'], tree);
+                var flatSubMenuList = subMenu['subMenu'].flat();
+                OpenWeatherMapDisplay.subMenuDisplay(flatSubMenuList, tree);
             }
 
         });
