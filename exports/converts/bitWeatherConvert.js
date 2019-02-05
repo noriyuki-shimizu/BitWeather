@@ -28,6 +28,8 @@ const BitWeatherConvert = {
             return condition.icon;
         },
         convert() {
+            const weekChars = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
+
             this.weatherDataList.map(weatherDay => {
                 var dateTime = new Date(weatherDay.dt_txt);
 
@@ -39,11 +41,13 @@ const BitWeatherConvert = {
 
                 var hour = dateTime.getHours();
 
+                var weekIndex = dateTime.getDay();
+
                 var condition = WeatherConditionCodes.get(weatherDay.weather[0].id);
                 var digree = WeatherWindDigree.get(weatherDay.wind.deg);
 
                 weatherDay.convert = {
-                    text: `${year}年${month}月${date}日`,
+                    text: `${year}年${month}月${date}日${weekChars[weekIndex]}`,
                     subMenu: [{
                         text: `${hour}時`,
                         subMenu: [
