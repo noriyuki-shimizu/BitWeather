@@ -40,8 +40,8 @@ $ brew cask install bitbar
 インストールが完了したら、BitBarアプリケーションを起動してください。<br>
 すると、メニューバーにBitBarが表示されているはずです。<br><br>
 <img src="https://user-images.githubusercontent.com/31028330/52277096-2fc8cc80-2997-11e9-8915-aa1d03272573.png" width="500px">
-<br>
-### ipinfo.io
+
+### ipinfo.io  
 * ipinfo.ioとは<br>
 ユーザーの所在地を特定し、ユーザー体験(UX)を変更できます。<br>
 また、詐欺を防止し、コンプライアンスを確実にするなど、さまざまなことができます。<br>
@@ -54,7 +54,7 @@ Git Hubとも連携できるため、簡単に登録できます。<br>
 登録完了すると、API Tokenが発行できているはずです。<br>
 <img src="https://user-images.githubusercontent.com/31028330/52341929-52221f00-2a57-11e9-85c9-a3e6ae71a4e7.png" width="500px">
 
-### openWeatherMap
+### openWeatherMap  
 * openWeatherMapとは<br>
 Webやモバイルアプリケーションの開発者に、現在の天候や予測履歴を含む各種気象データの無料APIを提供するオンラインサービスです。([wikipedia](https://ja.wikipedia.org/wiki/Openweathermap)参照)<br>
 無料プランから有料プランまで色々なサービスが提供されています。<br>
@@ -64,7 +64,7 @@ Webやモバイルアプリケーションの開発者に、現在の天候や�
 [How to start](https://openweathermap.org/)<br>
 <img src="https://user-images.githubusercontent.com/31028330/52342525-ffe1fd80-2a58-11e9-8bb6-58e73494b9af.png">
 
-### 本ツールのダウンロード
+### 本ツールのダウンロード  
 * ダウンロードを行ってください。(使用してみる価値あり！！だと思われます)
 * ダウンロードが完了したら、`config/app.yml`を開いていただき、上記で登録したAPI tokenやAPI keyを追加します。<br>
 * 住所での天気予報を表示したい場合は、addressの箇所に住所を設定してください。<br>
