@@ -49,10 +49,10 @@ $ brew cask install bitbar
 * API tokenの発行(※現在地の天気を表示したい場合のみ)<br>
 以下のリンクから公式ページへアクセスし「SIGN UP」から、アカウント登録します。<br><br>
 [ipinfo.io 公式ページ](https://ipinfo.io/)<br>
-<img src="https://user-images.githubusercontent.com/31028330/52341612-6f0a2280-2a56-11e9-8268-60b88b87acf9.png">
+<img src="https://user-images.githubusercontent.com/31028330/52341612-6f0a2280-2a56-11e9-8268-60b88b87acf9.png">  
 Git Hubとも連携できるため、簡単に登録できます。<br>
 登録完了すると、API Tokenが発行できているはずです。<br>
-<img src="https://user-images.githubusercontent.com/31028330/52341929-52221f00-2a57-11e9-85c9-a3e6ae71a4e7.png" width="500px">
+<img src="https://user-images.githubusercontent.com/31028330/52341929-52221f00-2a57-11e9-85c9-a3e6ae71a4e7.png" width="500px">  
 
 ### openWeatherMap  
 * openWeatherMapとは<br>
