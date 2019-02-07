@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/shimizunoriyuki/.nodebrew/current/bin/node
+#!/usr/local/bin/node
 
 console.log('🌞');
 
