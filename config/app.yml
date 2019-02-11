@@ -2,17 +2,18 @@ ipinfo:
   request:
     url: 'https://ipinfo.io'
     get:
-      token: '{your ipinfo token}'
+      token: 'Write your ipinfo token here'
 tokoro:
   address:
-    # 住所を入力　以下は例
-    home: '自宅の住所'
-    company: '会社の住所'
+    # If you want to specify an address, please add it below.
+    # The following description is an example.
+    # home: 'Home address'
+    # company: 'Company address'
 openweathermap:
   request:
     url: 'http://api.openweathermap.org/data/2.5/forecast'
     get:
-      appID: '{your api key}'
-      cnt: '35'
+      appID: 'Write your API key here'
+      cnt: '40'
       units: 'metric'
       mode: 'json'
