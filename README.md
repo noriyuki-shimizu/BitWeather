@@ -6,9 +6,9 @@ Macのメニューバーに、現在地及び、指定の住所での天気予�
 <img src="https://raw.githubusercontent.com/noriyuki-shimizu/images/master/BitWeather_v0.0.1.gif" width="400px">
 
 ### バージョン
-* 0.0.1
+* 1.0.0
 
-### 開発環境
+### 開発言語
 * Node.js(v11.6.0)
 
 ### 使用ツール
@@ -38,7 +38,7 @@ $ brew cask install bitbar
 
 * 起動<br>
 インストールが完了したら、BitBarアプリケーションを起動してください。<br>
-すると、メニューバーにBitBarが表示されているはずです。<br><br>
+すると、メニューバーに`BitBar`と表示されているはずです。<br><br>
 <img src="https://user-images.githubusercontent.com/31028330/52277096-2fc8cc80-2997-11e9-8915-aa1d03272573.png" width="500px">
 
 ### ipinfo.io  
@@ -64,6 +64,12 @@ Webやモバイルアプリケーションの開発者に、現在の天候や�
 [How to start](https://openweathermap.org/)<br>
 <img src="https://user-images.githubusercontent.com/31028330/52342525-ffe1fd80-2a58-11e9-8bb6-58e73494b9af.png">
 
+### Node.js
+* Node.jsのshebangについて<br>
+本ツールは`/usr/local/bin/`に`node`があることが前提となります。(環境変数を通してあること)<br>
+`.bash_profile`などのファイルにおいて、`export`を使用して環境変数を通すやり方だとうまくいかないケースがあるため、注意が必要です。<br>
+`node`をインストールした際、`/usr/local/bin/`にnodeが存在しなかった場合は、シンボリックリンクを作成するなどの対応が必要となります。<br>
+
 ### 本ツールのダウンロード  
 * ダウンロードを行ってください。(使用してみる価値あり！！だと思われます)
 * ダウンロードが完了したら、`config/app.yml`を開いていただき、上記で登録したAPI tokenやAPI keyを追加します。<br>
@@ -75,29 +81,50 @@ ipinfo:
   request:
     url: 'https://ipinfo.io'
     get:
-      token: '{your ipinfo token}'
+      token: 'Write your ipinfo token here'
 tokoro:
   address:
-    # 住所を入力　以下は例
-    home: '自宅の住所'
-    company: '会社の住所'
+    # If you want to specify an address, please add it below.
+    # The following description is an example.
+    # home: 'Home address'
+    # company: 'Company address'
 openweathermap:
   request:
     url: 'http://api.openweathermap.org/data/2.5/forecast'
     get:
-      appID: '{your api key}'
-      cnt: '35'
+      appID: 'Write your API key here'
+      cnt: '40'
       units: 'metric'
       mode: 'json'
 ```
+
+* パッケージ情報のインストール
+    * `package.json`に記載されている`dependencies`のパッケージ情報をパッケージ管理システム`npm`を用いてインストールします。<br>
+    ```
+    $ npm install --save パッケージ名
+    ```
+
+    * 必要な情報は以下の通りです。<br>
+
+    ```
+    fs:     0.0.1-security,
+    http:   0.0.0,
+    https:  ^1.0.0,
+    tokoro: ^0.2.1,
+    yaml:   ^1.3.1
+    ```
 
 * BitBarのプラグインフォルダを変更<br>
 まず、BitBar専用のプラグインフォルダを任意のディレクトリに作成します。<br>
 BitBarの「Change Plugin Folder...」から、作成したプラグインフォルダを選択します。<br>
 <img src="https://user-images.githubusercontent.com/31028330/52345699-302d9a00-2a61-11e9-81c5-55de1654b828.png" width="500px"><br><br>
+* app.1h.jsに実行権限がない場合<br>
+本ツールにおけるメイン実行ファイル(app.1h.js)に実行権限がない場合は、プロジェクトのディレクトリ上で以下のコマンドを実行します。
+```
+$ chmod +x app.1h.js
+```
 * シンボリックリンクを作成する<br>
 最後に、コマンドラインからmain実行ファイル(`app.1h.js`)に対し、作成したプラグインフォルダへシンボリックリンクを作成します。
-
 ```
 $ ln -s 本ツールをダウンロードしたディレクトリのパス/app.1h.js 作成したプラグインフォルダまでのディレクトリのパス/app.1h.js
 ```
