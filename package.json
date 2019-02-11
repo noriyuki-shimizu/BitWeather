@@ -1,6 +1,6 @@
 {
   "name": "bitweather",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Macのメニューバーに天気予報を表示します。",
   "main": "app.1h.js",
   "scripts": {
