@@ -6,7 +6,7 @@ exports.create = weatherDataList => {
 }
 
 /**
- * openWeatherMapから取得されたデータを変換します。
+ * openWeatherMapデータの変換に関するオブジェクト。
  */
 const BitWeatherConvert = {
     create: weatherDataList => {
@@ -19,6 +19,9 @@ const BitWeatherConvert = {
         return bitWeatherConvert;
     },
     prototype: {
+        /**
+         * 当日の天気予報の最初の天気アイコンを取得します。
+         */
         getCurrentWeatherIcon() {
             if(!Array.isArray(this.weatherDataList)) return ;
 
@@ -27,6 +30,9 @@ const BitWeatherConvert = {
 
             return condition.icon;
         },
+        /**
+         * openWeatherMapから取得されたデータを変換します。
+         */
         convert() {
             const weekChars = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
 
@@ -84,6 +90,9 @@ const BitWeatherConvert = {
 
             return this;
         },
+        /**
+         * グループ化します。
+         */
         grouping() {
             var group = {};
             this.weatherDataList.forEach(weatherDay => {

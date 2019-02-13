@@ -1,17 +1,17 @@
 
-const DisplayError = require('./displays/error');
-const systemEnv = require('./systemEnv');
-const Url = require('./url');
-
 exports.create = () => {
     return Ipinfo.create();
 }
 
+/**
+ * ipinfoに関するオブジェクト。
+ */
 var Ipinfo = {
     create: () => {
         var ipinfo = Object.create(Ipinfo.prototype);
 
-        const property = systemEnv.get;
+        const systemEnv = require('./systemEnv');
+        const property = systemEnv.get();
 
         const REQUEST_URL = property.IPINFO.REQUEST_URL;
 
@@ -19,13 +19,18 @@ var Ipinfo = {
             token: property.IPINFO.REQUEST_GET_TOKEN
         };
 
+        const Url = require('./url');
         var url = Url.create(REQUEST_URL, parameter);
 
-        ipinfo.apiUrl = url.createUrl();
+        ipinfo.apiUrl = url.getRequestUrl();
 
         return ipinfo;
     },
+    /**
+     * 現在地の取得に失敗した際に、メニューバーにエラーを表示します。
+     */
     acquireException: () => {
+        const DisplayError = require('./displays/error');
         var displayError = DisplayError.create(
             '現在地の取得に失敗しました。',
             '設定を確認してください。'
@@ -33,6 +38,9 @@ var Ipinfo = {
         displayError.display();
     },
     prototype: {
+        /**
+         * API通信を実行します。
+         */
         execute() {
             const https = require('https');
 
@@ -55,9 +63,9 @@ var Ipinfo = {
 
                         const latlon = {lat: code[0], lon: code[1]};
 
-                        var openWeatherMap = OpenWeatherMap.create('現在地', latlon);
+                        var openWeatherMap = OpenWeatherMap.create(latlon);
 
-                        openWeatherMap.acquire();
+                        openWeatherMap.execute('現在地');
                     } catch {
                         Ipinfo.acquireException();
                     }

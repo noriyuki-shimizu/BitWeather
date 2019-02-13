@@ -11,16 +11,12 @@ ipinfo.execute();
 // ===== 設定ファイルに記載されている住所の天気予報を取得 =====
 const systemEnv = require('./exports/systemEnv');
 const Tokoro = require('./exports/tokoro');
-const DisplayError = require('./exports/displays/error');
 
-const property = systemEnv.get;
+const property = systemEnv.get();
 
 const addressObj = property.TOKORO.ADDRESS;
 
-if(addressObj === undefined) {
-    var displayError = DisplayError.create('住所が設定されていません。');
-    displayError.display();
-
+if(addressObj === null){
     return ;
 }
 
@@ -29,8 +25,8 @@ setTimeout(() => {
 
     for(var key in addressObj) {
         if(typeof addressObj[key] === 'string') {
-            var tokoro = Tokoro.create(addressObj[key]);
-            tokoro.leadLatLonFromAddress();
+            var tokoro = Tokoro.create();
+            tokoro.leadLatLonFromAddress(addressObj[key]);
         }
     }
 

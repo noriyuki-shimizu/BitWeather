@@ -6,7 +6,7 @@ exports.create = (...message) => {
 }
 
 /**
- * エラーを表示させます。
+ * エラーを表示に関するオブジェクト。
  */
 var Error = {
     create: (message) => {
@@ -17,6 +17,9 @@ var Error = {
         return error;
     },
     prototype: {
+        /**
+         * エラーを表示します。
+         */
         display() {
             Display.separator();
 

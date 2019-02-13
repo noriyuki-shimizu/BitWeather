@@ -1,24 +1,24 @@
-// ===== パッケージ =====
-const tokoro = require('tokoro');
 
-// ===== exportsオブジェクト =====
-const systemEnv = require('./systemEnv');
-const OpenWeatherMap = require('./openWeatherMap');
-const DisplayError = require('./displays/error');
-
-exports.create = (address) => {
-    return Tokoro.create(address);
+exports.create = () => {
+    return Tokoro.create();
 }
 
+/**
+ * Tokoroライブラリを用いた住所変換に関するオブジェクト。
+ */
 var Tokoro = {
-    create: (address) => {
+    create: () => {
         var tokoro = Object.create(Tokoro.prototype);
 
-        tokoro.address = address;
+        tokoro.tokoro = require('tokoro');
 
         return tokoro;
     },
+    /**
+     * 住所不正の場合にメニューバーにエラーメッセージを表示します。
+     */
     addressException: () => {
+        const DisplayError = require('./displays/error');
         var displayError = DisplayError.create(
             '住所が不正です。',
             '設定を確認してください。'
@@ -26,16 +26,21 @@ var Tokoro = {
         displayError.display();
     },
     prototype: {
-        leadLatLonFromAddress() {
-            var address = this.address;
+        /**
+         * 住所から緯度、経度に変換し、OpenWeatherMapへパラメータを渡します。
+         * @param {string} 住所
+         */
+        leadLatLonFromAddress(address) {
+            const OpenWeatherMap = require('./openWeatherMap');
+
             var processAfterAcquisition = function(code) {
                 if (code) {
 
                     const latlon = {lat: code[0], lon: code[1]};
 
                     // ====== weather ======
-                    const openWeatherMap = OpenWeatherMap.create(address, latlon);
-                    openWeatherMap.acquire();
+                    const openWeatherMap = OpenWeatherMap.create(latlon);
+                    openWeatherMap.execute(address);
                     // =====================
 
                     return ;
@@ -44,7 +49,7 @@ var Tokoro = {
                 Tokoro.addressException();
             }
 
-            tokoro(address, processAfterAcquisition);
+            this.tokoro(address, processAfterAcquisition);
         }
     }
 }

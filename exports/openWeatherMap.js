@@ -1,28 +1,22 @@
-// ===== パッケージ =====
-const http = require('http');
 
-// ===== exportsオブジェクト =====
-const systemEnv = require('./systemEnv');
-const Url = require('./url');
-const BitWeatherConvert = require('./converts/bitWeatherConvert');
-const OpenWeatherMapDisplay = require('./displays/openWeatherMapDisplay');
-const DisplayError = require('./displays/error');
-
-exports.create = (address, latlon) => {
-    return OpenWeatherMap.create(address, latlon);
+exports.create = (latlon) => {
+    return OpenWeatherMap.create(latlon);
 }
 
+/**
+ * OpenWeatherMap APIに関するオブジェクト
+ */
 var OpenWeatherMap = {
-    create: (address, latlon) => {
-        var openWeatherMap = Object.create(OpenWeatherMap.prototype);
+    create: (latlon) => {
 
-        openWeatherMap.address = address;
+        var openWeatherMap = Object.create(OpenWeatherMap.prototype);
 
         openWeatherMap.weatherData;
 
         openWeatherMap.latlon = latlon;
 
-        const property = systemEnv.get;
+        const systemEnv = require('./systemEnv');
+        const property = systemEnv.get();
 
         const REQUEST_URL = property.OPENWEATHERMAP.REQUEST_URL;
 
@@ -35,13 +29,19 @@ var OpenWeatherMap = {
             appid: property.OPENWEATHERMAP.REQUEST_GET_APPID
         };
 
+        const Url = require('./url');
         var url = Url.create(REQUEST_URL, parameter);
 
-        openWeatherMap.apiUrl = url.createUrl();
+        openWeatherMap.apiUrl = url.getRequestUrl();
 
         return openWeatherMap;
     },
+    /**
+     * 天気予報取得に失敗した際にメニューバーにエラーを表示します。
+     */
     acquireException: () => {
+        const DisplayError = require('./displays/error');
+
         var displayError = DisplayError.create(
             '天気予報の取得に失敗しました。',
             '設定を確認してください。'
@@ -49,9 +49,14 @@ var OpenWeatherMap = {
         displayError.display();
     },
     prototype: {
-        acquire() {
+        /**
+         * API通信を実行します。
+         */
+        execute(address) {
+            const http = require('http');
 
-            var address = this.address;
+            const BitWeatherConvert = require('./converts/bitWeatherConvert');
+            const OpenWeatherMapDisplay = require('./displays/openWeatherMapDisplay');
 
             http.get(this.apiUrl, function(response) {
                 var body = '';

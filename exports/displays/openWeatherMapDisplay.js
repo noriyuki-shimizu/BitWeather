@@ -6,7 +6,7 @@ exports.create = (weatherData, address) => {
 }
 
 /**
- * openWeatherMapから取得されたデータを表示します。
+ * openWeatherMapデータ表示に関するオブジェクト。
  */
 var OpenWeatherMapDisplay = {
     create: (weatherDataList, address) => {
@@ -18,6 +18,9 @@ var OpenWeatherMapDisplay = {
 
         return openWeatherMapDisplay;
     },
+    /**
+     * サブメニューを表示します。
+     */
     subMenuDisplay: (subMenuList, tree) => {
         tree += Display.tree();
 
@@ -32,6 +35,9 @@ var OpenWeatherMapDisplay = {
         });
     },
     prototype: {
+        /**
+         * OpenWeatherMapで取得されたデータを表示します。
+         */
         display() {
             Display.separator();
 

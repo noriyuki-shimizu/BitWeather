@@ -1,40 +1,35 @@
 
-/**
- *
- * @param {string} url URL
- * @param {object} requestParameter リクエストパラメーター
- * @returns {string} リクエストURL
- */
-exports.create = (url, parameter) => {
-    return Url.create(url, parameter);
+exports.create = (requestUrl, parameter) => {
+    return Url.create(requestUrl, parameter);
 }
 
+/**
+ * URLに関するオブジェクトです。
+ */
 var Url = {
-    create: (requestUrl, requestParameter) => {
+    create: (requestUrl, parameter) => {
         var url = Object.create(Url.prototype);
 
         url.requestUrl = requestUrl;
 
-        url.requestParameter = requestParameter;
+        url.parameter = parameter;
 
         return url;
     },
     prototype: {
         /**
-         * 引数のパラメータオブジェクトからリクエストパラメータを作成する。
-         *
-         * @param {object} parameter
+         * リクエストURLを返します。
          */
-        createUrl() {
+        getRequestUrl() {
 
-            if(this.requestParameter === undefined) {
+            if(this.parameter === undefined) {
                 return this.requestUrl;
             }
 
-            var keys = Object.keys(this.requestParameter);
+            var keys = Object.keys(this.parameter);
 
             var mappingKeys = keys.map((key, index) => {
-                return key + '=' + this.requestParameter[key];
+                return key + '=' + this.parameter[key];
             });
 
             return this.requestUrl + '?' + mappingKeys.join('&');
