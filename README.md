@@ -99,19 +99,22 @@ openweathermap:
 ```
 
 * パッケージ情報のインストール
-    * `package.json`に記載されている`dependencies`のパッケージ情報をパッケージ管理システム`npm`を用いてインストールします。<br>
+    * `package.json`に記載されている`dependencies`のパッケージ情報をインストールします。<br>
+    プロジェクトのあるディレクトリ上で、以下のコマンドを実行し、セットアップします。
     ```
-    $ npm install --save パッケージ名
+    $ bash setup.sh
     ```
 
-    * 必要な情報は以下の通りです。<br>
+    * インストールされる情報は以下の通りです。<br>
 
     ```
-    fs:     0.0.1-security,
-    http:   0.0.0,
-    https:  ^1.0.0,
-    tokoro: ^0.2.1,
-    yaml:   ^1.3.1
+    パッケージ名: バージョン
+    ------------------------
+    fs        :   0.0.1-security,
+    http      :   0.0.0,
+    https     :   ^1.0.0,
+    tokoro    :   ^0.2.1,
+    yaml      :   ^1.3.1
     ```
 
 * BitBarのプラグインフォルダを変更<br>
