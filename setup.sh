@@ -51,15 +51,15 @@ fi
 if ! command_exists npm ; then
     ln -s $HOME/.nodebrew/current/bin/npm /usr/local/bin/npm
     success_display_to_bash "npm installed. version is `npm -v`"
-
-    info_display_to_bash "BitWeatherに必要なパッケージ情報をインストールします。"
-
-    npm i -S fs@0.0.1-security
-    npm i -S http@0.0.0
-    npm i -S https@^1.0.0
-    npm i -S tokoro@^0.2.1
-    npm i -S yaml@^1.3.1
 fi
+
+info_display_to_bash "BitWeatherに必要なパッケージ情報をインストールします。"
+
+npm i -S fs@0.0.1-security
+npm i -S http@0.0.0
+npm i -S https@^1.0.0
+npm i -S tokoro@^0.2.1
+npm i -S yaml@^1.3.1
 
 if ! command_exists npx ; then
     ln -s $HOME/.nodebrew/current/bin/npx /usr/local/bin/npx
