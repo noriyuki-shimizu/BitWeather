@@ -48,6 +48,16 @@ if ! command_exists node ; then
     ln -s $HOME/.nodebrew/current/bin/node /usr/local/bin/node
 fi
 
+nodebrew install-binary v11.10.0
+
+success_display_to_bash "Node installed. version is `nodebrew ls`"
+
+nodebrew use v11.10.0
+
+success_display_to_bash "Node use version v11.10.0"
+
+ln -s $HOME/.nodebrew/current/bin/node /usr/local/bin/node
+
 if ! command_exists npm ; then
     ln -s $HOME/.nodebrew/current/bin/npm /usr/local/bin/npm
     success_display_to_bash "npm installed. version is `npm -v`"
