@@ -37,15 +37,6 @@ if ! command_exists node ; then
         mkdir $HOME/.nodebrew/src/
     fi
 
-    nodebrew install-binary v11.10.0
-
-    success_display_to_bash "Node installed. version is `nodebrew ls`"
-
-    nodebrew use v11.10.0
-
-    success_display_to_bash "Node use version v11.10.0"
-
-    ln -s $HOME/.nodebrew/current/bin/node /usr/local/bin/node
 fi
 
 nodebrew install-binary v11.10.0
