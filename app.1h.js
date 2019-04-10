@@ -1,6 +1,6 @@
 #!/usr/local/bin/node
 
-console.log('🌞');
+console.log('☀️');
 
 // ===== 現在地の天気予報を取得 =====
 const Ipinfo = require('./exports/ipinfo');
