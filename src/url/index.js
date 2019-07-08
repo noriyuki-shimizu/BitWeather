@@ -1,38 +1,34 @@
-
-exports.create = (requestUrl, parameter) => {
-    return Url.create(requestUrl, parameter);
-}
+exports.create = (requestUrl, parameter) => Url.create(requestUrl, parameter);
 
 /**
  * URLに関するオブジェクトです。
  */
 var Url = {
-    create: (requestUrl, parameter) => {
-        var url = Object.create(Url.prototype);
+  create: (requestUrl, parameter) => {
+    const url = Object.create(Url.prototype);
 
-        url.requestUrl = requestUrl;
+    url.requestUrl = requestUrl;
 
-        url.parameter = parameter;
+    url.parameter = parameter;
 
-        return url;
-    },
-    prototype: {
-        /**
-         * リクエストURLを返します。
-         */
-        getRequestUrl() {
+    return url;
+  },
+  prototype: {
+    /**
+     * リクエストURLを返します。
+     */
+    getRequestUrl() {
+      if (this.parameter === undefined) {
+        return this.requestUrl;
+      }
 
-            if(this.parameter === undefined) {
-                return this.requestUrl;
-            }
+      const keys = Object.keys(this.parameter);
 
-            var keys = Object.keys(this.parameter);
+      const mappingKeys = keys.map(
+        (key, index) => `${key}=${this.parameter[key]}`
+      );
 
-            var mappingKeys = keys.map((key, index) => {
-                return key + '=' + this.parameter[key];
-            });
-
-            return this.requestUrl + '?' + mappingKeys.join('&');
-        }
+      return `${this.requestUrl}?${mappingKeys.join("&")}`;
     }
-}
+  }
+};

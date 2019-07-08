@@ -1,60 +1,59 @@
+const Display = require("./display");
 
-const Display = require('./display');
-
-exports.create = (weatherData, address) => {
-    return OpenWeatherMapDisplay.create(weatherData, address);
-}
+exports.create = (weatherData, address) =>
+  OpenWeatherMapDisplay.create(weatherData, address);
 
 /**
  * openWeatherMapデータ表示に関するオブジェクト。
  */
 var OpenWeatherMapDisplay = {
-    create: (weatherDataList, address) => {
-        var openWeatherMapDisplay = Object.create(OpenWeatherMapDisplay.prototype);
+  create: (weatherDataList, address) => {
+    const openWeatherMapDisplay = Object.create(
+      OpenWeatherMapDisplay.prototype
+    );
 
-        Object.assign(openWeatherMapDisplay, Display.create(weatherDataList));
+    Object.assign(openWeatherMapDisplay, Display.create(weatherDataList));
 
-        openWeatherMapDisplay.address = address;
+    openWeatherMapDisplay.address = address;
 
-        return openWeatherMapDisplay;
-    },
+    return openWeatherMapDisplay;
+  },
+  /**
+   * サブメニューを表示します。
+   */
+  subMenuDisplay: (subMenuList, tree) => {
+    tree += Display.tree();
+
+    subMenuList.forEach(subMenu => {
+      console.log(`${tree}${subMenu.text} | color=${subMenu.color}`);
+
+      if (subMenu.subMenu !== undefined) {
+        const flatSubMenuList = subMenu.subMenu.flat();
+        OpenWeatherMapDisplay.subMenuDisplay(flatSubMenuList, tree);
+      }
+    });
+  },
+  prototype: {
     /**
-     * サブメニューを表示します。
+     * OpenWeatherMapで取得されたデータを表示します。
      */
-    subMenuDisplay: (subMenuList, tree) => {
-        tree += Display.tree();
+    display() {
+      Display.separator();
 
-        subMenuList.forEach(subMenu => {
-            console.log(`${tree}${subMenu.text} | color=${subMenu.color}`);
+      console.log(this.address);
 
-            if(subMenu['subMenu'] !== undefined) {
-                var flatSubMenuList = subMenu['subMenu'].flat();
-                OpenWeatherMapDisplay.subMenuDisplay(flatSubMenuList, tree);
-            }
+      const keys = Object.keys(this.displayData);
+      keys.forEach(key => {
+        const tree = Display.tree();
+        console.log(tree + key);
 
-        });
-    },
-    prototype: {
-        /**
-         * OpenWeatherMapで取得されたデータを表示します。
-         */
-        display() {
-            Display.separator();
+        const { subMenuList } = this.displayData[key];
+        const flatSubMenuList = subMenuList.flat();
 
-            console.log(this.address);
-
-            var keys = Object.keys(this.displayData);
-            keys.forEach(key => {
-                var tree = Display.tree();
-                console.log(tree + key);
-
-                var subMenuList = this.displayData[key].subMenuList;
-                var flatSubMenuList = subMenuList.flat();
-
-                OpenWeatherMapDisplay.subMenuDisplay(flatSubMenuList, tree);
-            });
-        }
+        OpenWeatherMapDisplay.subMenuDisplay(flatSubMenuList, tree);
+      });
     }
-}
+  }
+};
 
 Object.setPrototypeOf(OpenWeatherMapDisplay.prototype, Display.prototype);

@@ -1,116 +1,124 @@
-const WeatherConditionCodes = require('../openWeatherMap/openWeatherMapParts/weatherConditionCodes');
-const WeatherWindDigree = require('../openWeatherMap/openWeatherMapParts/weatherWindDigree');
+const WeatherConditionCodes = require("../openWeatherMap/openWeatherMapParts/weatherConditionCodes");
+const WeatherWindDigree = require("../openWeatherMap/openWeatherMapParts/weatherWindDigree");
 
-exports.create = weatherDataList => {
-    return BitWeatherConvert.create(weatherDataList);
-}
+exports.create = weatherDataList => BitWeatherConvert.create(weatherDataList);
 
 /**
  * openWeatherMapデータの変換に関するオブジェクト。
  */
 const BitWeatherConvert = {
-    create: weatherDataList => {
-        var bitWeatherConvert = Object.create(BitWeatherConvert.prototype);
+  create: weatherDataList => {
+    const bitWeatherConvert = Object.create(BitWeatherConvert.prototype);
 
-        bitWeatherConvert.greenwich = 9;
+    bitWeatherConvert.greenwich = 9;
 
-        bitWeatherConvert.weatherDataList = weatherDataList.copyWithin();
+    bitWeatherConvert.weatherDataList = weatherDataList.copyWithin();
 
-        return bitWeatherConvert;
+    return bitWeatherConvert;
+  },
+  prototype: {
+    /**
+     * 当日の天気予報の最初の天気アイコンを取得します。
+     */
+    getCurrentWeatherIcon() {
+      if (!Array.isArray(this.weatherDataList)) return;
+
+      const currentWeatherDay = this.weatherDataList[0];
+      const condition = WeatherConditionCodes.get(
+        currentWeatherDay.weather[0].id
+      );
+
+      return condition.icon;
     },
-    prototype: {
-        /**
-         * 当日の天気予報の最初の天気アイコンを取得します。
-         */
-        getCurrentWeatherIcon() {
-            if(!Array.isArray(this.weatherDataList)) return ;
+    /**
+     * openWeatherMapから取得されたデータを変換します。
+     */
+    convert() {
+      const weekChars = [
+        "(日)",
+        "(月)",
+        "(火)",
+        "(水)",
+        "(木)",
+        "(金)",
+        "(土)"
+      ];
 
-            var currentWeatherDay = this.weatherDataList[0];
-            var condition = WeatherConditionCodes.get(currentWeatherDay.weather[0].id);
+      this.weatherDataList.map(weatherDay => {
+        const dateTime = new Date(weatherDay.dt_txt);
 
-            return condition.icon;
-        },
-        /**
-         * openWeatherMapから取得されたデータを変換します。
-         */
-        convert() {
-            const weekChars = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
+        dateTime.setHours(dateTime.getHours() + this.greenwich);
 
-            this.weatherDataList.map(weatherDay => {
-                var dateTime = new Date(weatherDay.dt_txt);
+        const year = dateTime.getFullYear();
+        const month = dateTime.getMonth() + 1;
+        const date = dateTime.getDate();
 
-                dateTime.setHours(dateTime.getHours() + this.greenwich);
+        const hour = dateTime.getHours();
 
-                var year = dateTime.getFullYear();
-                var month = dateTime.getMonth() + 1;
-                var date = dateTime.getDate();
+        const weekIndex = dateTime.getDay();
 
-                var hour = dateTime.getHours();
+        const condition = WeatherConditionCodes.get(weatherDay.weather[0].id);
+        const digree = WeatherWindDigree.get(weatherDay.wind.deg);
 
-                var weekIndex = dateTime.getDay();
-
-                var condition = WeatherConditionCodes.get(weatherDay.weather[0].id);
-                var digree = WeatherWindDigree.get(weatherDay.wind.deg);
-
-                weatherDay.convert = {
-                    text: `${year}年${month}月${date}日${weekChars[weekIndex]}`,
-                    subMenu: [{
-                        text: `${hour}時`,
-                        subMenu: [
-                            {
-                                text: `${condition.icon} : ${condition.meaning}`,
-                                color: 'black'
-                            },
-                            {
-                                text: `気温: ${weatherDay.main.temp}℃`,
-                                color: 'black'
-                            },
-                            {
-                                text: `最低気温: ${weatherDay.main.temp_min}℃`,
-                                color: 'black'
-                            },
-                            {
-                                text: `最高気温: ${weatherDay.main.temp_max}℃`,
-                                color: 'black'
-                            },
-                            {
-                                text: `湿度: ${weatherDay.main.humidity}%`,
-                                color: 'black'
-                            },
-                            {
-                                text: `風: ${weatherDay.wind.speed}m(${digree.windDigree})`,
-                                color: 'black'
-                            }
-                        ]
-                    }]
-                };
-
-                return weatherDay.convert;
-            });
-
-            return this;
-        },
-        /**
-         * グループ化します。
-         */
-        grouping() {
-            var group = {};
-            this.weatherDataList.forEach(weatherDay => {
-
-                var text = weatherDay.convert.text;
-                var subMenu = weatherDay.convert.subMenu;
-
-                if(group[text] === undefined) {
-                    group[text] = {
-                        subMenuList: []
-                    };
+        weatherDay.convert = {
+          text: `${year}年${month}月${date}日${weekChars[weekIndex]}`,
+          subMenu: [
+            {
+              text: `${hour}時`,
+              subMenu: [
+                {
+                  text: `${condition.icon} : ${condition.meaning}`,
+                  color: "black"
+                },
+                {
+                  text: `気温: ${weatherDay.main.temp}℃`,
+                  color: "black"
+                },
+                {
+                  text: `最低気温: ${weatherDay.main.temp_min}℃`,
+                  color: "black"
+                },
+                {
+                  text: `最高気温: ${weatherDay.main.temp_max}℃`,
+                  color: "black"
+                },
+                {
+                  text: `湿度: ${weatherDay.main.humidity}%`,
+                  color: "black"
+                },
+                {
+                  text: `風: ${weatherDay.wind.speed}m(${digree.windDigree})`,
+                  color: "black"
                 }
+              ]
+            }
+          ]
+        };
 
-                group[text].subMenuList.push(subMenu);
-            });
+        return weatherDay.convert;
+      });
 
-            return group;
+      return this;
+    },
+    /**
+     * グループ化します。
+     */
+    grouping() {
+      const group = {};
+      this.weatherDataList.forEach(weatherDay => {
+        const { text } = weatherDay.convert;
+        const { subMenu } = weatherDay.convert;
+
+        if (group[text] === undefined) {
+          group[text] = {
+            subMenuList: []
+          };
         }
-    }
-}
 
+        group[text].subMenuList.push(subMenu);
+      });
+
+      return group;
+    }
+  }
+};
