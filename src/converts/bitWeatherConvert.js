@@ -1,5 +1,5 @@
-const WeatherConditionCodes = require('../openWeatherMapParts/weatherConditionCodes');
-const WeatherWindDigree = require('../openWeatherMapParts/weatherWindDigree');
+const WeatherConditionCodes = require('../openWeatherMap/openWeatherMapParts/weatherConditionCodes');
+const WeatherWindDigree = require('../openWeatherMap/openWeatherMapParts/weatherWindDigree');
 
 exports.create = weatherDataList => {
     return BitWeatherConvert.create(weatherDataList);

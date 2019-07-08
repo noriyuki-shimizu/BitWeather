@@ -10,7 +10,7 @@ var Ipinfo = {
     create: () => {
         var ipinfo = Object.create(Ipinfo.prototype);
 
-        const systemEnv = require('./systemEnv');
+        const systemEnv = require('../util/systemEnv');
         const property = systemEnv.get();
 
         const REQUEST_URL = property.IPINFO.REQUEST_URL;
@@ -19,7 +19,7 @@ var Ipinfo = {
             token: property.IPINFO.REQUEST_GET_TOKEN
         };
 
-        const Url = require('./url');
+        const Url = require('../url');
         var url = Url.create(REQUEST_URL, parameter);
 
         ipinfo.apiUrl = url.getRequestUrl();
@@ -30,7 +30,7 @@ var Ipinfo = {
      * 現在地の取得に失敗した際に、メニューバーにエラーを表示します。
      */
     acquireException: () => {
-        const DisplayError = require('./displays/error');
+        const DisplayError = require('../displays/error');
         var displayError = DisplayError.create(
             '現在地の取得に失敗しました。',
             '設定を確認してください。'
@@ -44,7 +44,7 @@ var Ipinfo = {
         execute() {
             const https = require('https');
 
-            const OpenWeatherMap = require('./openWeatherMap');
+            const OpenWeatherMap = require('../openWeatherMap/openWeatherMap');
 
             https.get(this.apiUrl, function(response) {
                 var body = '';

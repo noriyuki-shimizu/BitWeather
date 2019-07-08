@@ -16,7 +16,7 @@ var SystemEnv = {
         const fs = require('fs');
         const yaml = require('yaml');
 
-        const appYml = fs.readFileSync(__dirname + '/../config/app.yml', 'utf8');
+        const appYml = fs.readFileSync(__dirname + '/../../config/app.yml', 'utf8');
 
         systemEnv.ymlPropertys = yaml.parse(appYml);
 

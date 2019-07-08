@@ -15,7 +15,7 @@ var OpenWeatherMap = {
 
         openWeatherMap.latlon = latlon;
 
-        const systemEnv = require('./systemEnv');
+        const systemEnv = require('../util/systemEnv');
         const property = systemEnv.get();
 
         const REQUEST_URL = property.OPENWEATHERMAP.REQUEST_URL;
@@ -29,7 +29,7 @@ var OpenWeatherMap = {
             appid: property.OPENWEATHERMAP.REQUEST_GET_APPID
         };
 
-        const Url = require('./url');
+        const Url = require('../url');
         var url = Url.create(REQUEST_URL, parameter);
 
         openWeatherMap.apiUrl = url.getRequestUrl();
@@ -40,7 +40,7 @@ var OpenWeatherMap = {
      * 天気予報取得に失敗した際にメニューバーにエラーを表示します。
      */
     acquireException: () => {
-        const DisplayError = require('./displays/error');
+        const DisplayError = require('../displays/error');
 
         var displayError = DisplayError.create(
             '天気予報の取得に失敗しました。',
@@ -55,8 +55,8 @@ var OpenWeatherMap = {
         execute(address) {
             const http = require('http');
 
-            const BitWeatherConvert = require('./converts/bitWeatherConvert');
-            const OpenWeatherMapDisplay = require('./displays/openWeatherMapDisplay');
+            const BitWeatherConvert = require('../converts/bitWeatherConvert');
+            const OpenWeatherMapDisplay = require('../displays/openWeatherMapDisplay');
 
             http.get(this.apiUrl, function(response) {
                 var body = '';

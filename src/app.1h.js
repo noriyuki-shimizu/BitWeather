@@ -3,14 +3,14 @@
 console.log('☀️');
 
 // ===== 現在地の天気予報を取得 =====
-const Ipinfo = require('./exports/ipinfo');
+const Ipinfo = require('./location/ipinfo');
 
 var ipinfo = Ipinfo.create();
 ipinfo.execute();
 
 // ===== 設定ファイルに記載されている住所の天気予報を取得 =====
-const systemEnv = require('./exports/systemEnv');
-const Tokoro = require('./exports/tokoro');
+const systemEnv = require('./util/systemEnv');
+const Tokoro = require('./location/tokoro');
 
 const property = systemEnv.get();
 
